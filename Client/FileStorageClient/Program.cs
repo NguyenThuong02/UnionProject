@@ -150,47 +150,63 @@ namespace YouthUnionManagement
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
+            this.BackColor = Color.WhiteSmoke;
+
+            // Tạo panel chứa form đăng nhập
+            Panel loginPanel = new Panel();
+            loginPanel.Size = new Size(320, 220);
+            loginPanel.Location = new Point((this.ClientSize.Width - loginPanel.Width) / 2, (this.ClientSize.Height - loginPanel.Height) / 2);
+            loginPanel.BackColor = Color.White;
+            loginPanel.BorderStyle = BorderStyle.FixedSingle;
 
             lblTitle = new Label();
             lblTitle.Text = "ĐĂNG NHẬP HỆ THỐNG";
             lblTitle.Font = new Font("Arial", 16, FontStyle.Bold);
             lblTitle.ForeColor = Color.DarkBlue;
-            lblTitle.Location = new Point(80, 30);
-            lblTitle.Size = new Size(250, 30);
+            lblTitle.Location = new Point(30, 20);
+            lblTitle.Size = new Size(260, 30);
             lblTitle.TextAlign = ContentAlignment.MiddleCenter;
 
             Label lblUsername = new Label();
             lblUsername.Text = "Tên đăng nhập:";
-            lblUsername.Location = new Point(50, 80);
+            lblUsername.Location = new Point(30, 70);
             lblUsername.Size = new Size(100, 20);
 
             txtUsername = new TextBox();
-            txtUsername.Location = new Point(160, 78);
-            txtUsername.Size = new Size(180, 20);
+            txtUsername.Location = new Point(140, 68);
+            txtUsername.Size = new Size(150, 20);
+            txtUsername.BorderStyle = BorderStyle.FixedSingle;
 
             Label lblPassword = new Label();
             lblPassword.Text = "Mật khẩu:";
-            lblPassword.Location = new Point(50, 120);
+            lblPassword.Location = new Point(30, 110);
             lblPassword.Size = new Size(100, 20);
 
             txtPassword = new TextBox();
-            txtPassword.Location = new Point(160, 118);
-            txtPassword.Size = new Size(180, 20);
+            txtPassword.Location = new Point(140, 108);
+            txtPassword.Size = new Size(150, 20);
             txtPassword.UseSystemPasswordChar = true;
+            txtPassword.BorderStyle = BorderStyle.FixedSingle;
 
             btnLogin = new Button();
             btnLogin.Text = "Đăng nhập";
-            btnLogin.Location = new Point(160, 160);
-            btnLogin.Size = new Size(80, 30);
-            btnLogin.BackColor = Color.LightBlue;
+            btnLogin.Location = new Point(140, 150);
+            btnLogin.Size = new Size(100, 35);
+            btnLogin.BackColor = Color.RoyalBlue;
+            btnLogin.ForeColor = Color.White;
+            btnLogin.FlatStyle = FlatStyle.Flat;
+            btnLogin.FlatAppearance.BorderSize = 0;
+            btnLogin.Cursor = Cursors.Hand;
             btnLogin.Click += BtnLogin_Click;
 
-            this.Controls.Add(lblTitle);
-            this.Controls.Add(lblUsername);
-            this.Controls.Add(txtUsername);
-            this.Controls.Add(lblPassword);
-            this.Controls.Add(txtPassword);
-            this.Controls.Add(btnLogin);
+            loginPanel.Controls.Add(lblTitle);
+            loginPanel.Controls.Add(lblUsername);
+            loginPanel.Controls.Add(txtUsername);
+            loginPanel.Controls.Add(lblPassword);
+            loginPanel.Controls.Add(txtPassword);
+            loginPanel.Controls.Add(btnLogin);
+
+            this.Controls.Add(loginPanel);
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
@@ -220,7 +236,7 @@ namespace YouthUnionManagement
     {
         private MenuStrip menuStrip;
         private StatusStrip statusStrip;
-        private Panel mainPanel;
+        private Panel mainPanel = new Panel();
 
         public MainForm()
         {
@@ -234,25 +250,46 @@ namespace YouthUnionManagement
             this.Size = new Size(1200, 800);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.WindowState = FormWindowState.Maximized;
+            this.Icon = SystemIcons.Application;
 
             // Menu Strip
             menuStrip = new MenuStrip();
+            menuStrip.BackColor = Color.RoyalBlue;
+            menuStrip.ForeColor = Color.White;
+            menuStrip.Padding = new Padding(10, 5, 0, 5);
+            menuStrip.Font = new Font("Segoe UI", 10, FontStyle.Regular);
             
             // Status Strip
             statusStrip = new StatusStrip();
+            statusStrip.BackColor = Color.LightSteelBlue;
             ToolStripStatusLabel statusLabel = new ToolStripStatusLabel();
             statusLabel.Text = $"Xin chào: {DataManager.CurrentUser.FullName} ({DataManager.CurrentUser.Role})";
+            statusLabel.Font = new Font("Segoe UI", 9, FontStyle.Regular);
+            ToolStripStatusLabel timeLabel = new ToolStripStatusLabel();
+            timeLabel.Alignment = ToolStripItemAlignment.Right;
+            timeLabel.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+            
             statusStrip.Items.Add(statusLabel);
+            statusStrip.Items.Add(timeLabel);
 
             // Main Panel
-            mainPanel = new Panel();
             mainPanel.Dock = DockStyle.Fill;
-            mainPanel.BackColor = Color.LightGray;
+            mainPanel.BackColor = Color.WhiteSmoke;
+            mainPanel.Padding = new Padding(15);
 
             this.Controls.Add(mainPanel);
             this.Controls.Add(statusStrip);
             this.Controls.Add(menuStrip);
             this.MainMenuStrip = menuStrip;
+
+            // Timer để cập nhật thời gian
+            // Timer để cập nhật thời gian
+            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+            timer.Interval = 60000; // 1 phút
+            timer.Tick += (s, e) => {
+                timeLabel.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+            };
+            timer.Start();
         }
 
         private void LoadUserInterface()
@@ -310,17 +347,102 @@ namespace YouthUnionManagement
         {
             mainPanel.Controls.Clear();
             
+            Panel welcomePanel = new Panel();
+            welcomePanel.Size = new Size(600, 400);
+            welcomePanel.Location = new Point((mainPanel.Width - 600) / 2, (mainPanel.Height - 400) / 2);
+            welcomePanel.BackColor = Color.White;
+            welcomePanel.BorderStyle = BorderStyle.None;
+            
+            Label titleLabel = new Label();
+            titleLabel.Text = "HỆ THỐNG QUẢN LÝ HOẠT ĐỘNG ĐOÀN SỞ";
+            titleLabel.Font = new Font("Arial", 18, FontStyle.Bold);
+            titleLabel.ForeColor = Color.RoyalBlue;
+            titleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            titleLabel.Dock = DockStyle.Top;
+            titleLabel.Padding = new Padding(0, 30, 0, 30);
+            
             Label welcomeLabel = new Label();
-            welcomeLabel.Text = $"Chào mừng đến với Hệ thống Quản lý Hoạt động Đoàn Sở\n\n" +
-                               $"Người dùng: {DataManager.CurrentUser.FullName}\n" +
-                               $"Vai trò: {DataManager.CurrentUser.Role}\n\n" +
-                               "Vui lòng chọn chức năng từ menu phía trên.";
-            welcomeLabel.Font = new Font("Arial", 14);
+            welcomeLabel.Text = $"Chào mừng, {DataManager.CurrentUser.FullName}!";
+            welcomeLabel.Font = new Font("Arial", 14, FontStyle.Regular);
             welcomeLabel.ForeColor = Color.DarkBlue;
             welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
-            welcomeLabel.Dock = DockStyle.Fill;
+            welcomeLabel.Dock = DockStyle.Top;
+            welcomeLabel.Padding = new Padding(0, 10, 0, 20);
             
-            mainPanel.Controls.Add(welcomeLabel);
+            Label roleLabel = new Label();
+            roleLabel.Text = $"Vai trò: {DataManager.CurrentUser.Role}";
+            roleLabel.Font = new Font("Arial", 12, FontStyle.Regular);
+            roleLabel.ForeColor = Color.DarkSlateGray;
+            roleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            roleLabel.Dock = DockStyle.Top;
+            roleLabel.Padding = new Padding(0, 0, 0, 30);
+            
+            Label infoLabel = new Label();
+            infoLabel.Text = "Vui lòng chọn chức năng từ menu phía trên để bắt đầu.";
+            infoLabel.Font = new Font("Arial", 11, FontStyle.Regular);
+            infoLabel.ForeColor = Color.DimGray;
+            infoLabel.TextAlign = ContentAlignment.MiddleCenter;
+            infoLabel.Dock = DockStyle.Top;
+            
+            // Thêm thông tin thống kê
+            FlowLayoutPanel statsPanel = new FlowLayoutPanel();
+            statsPanel.FlowDirection = FlowDirection.LeftToRight;
+            statsPanel.WrapContents = false;
+            statsPanel.AutoSize = true;
+            statsPanel.Dock = DockStyle.Bottom;
+            statsPanel.Padding = new Padding(0, 30, 0, 0);
+            
+            AddStatCard(statsPanel, "Đoàn viên", DataManager.Members.Count.ToString(), Color.DodgerBlue);
+            AddStatCard(statsPanel, "Hoạt động", DataManager.Activities.Count.ToString(), Color.ForestGreen);
+            AddStatCard(statsPanel, "Hoạt động sắp tới", 
+                DataManager.Activities.Count(a => a.StartDate > DateTime.Now).ToString(), Color.OrangeRed);
+            
+            welcomePanel.Controls.Add(statsPanel);
+            welcomePanel.Controls.Add(infoLabel);
+            welcomePanel.Controls.Add(roleLabel);
+            welcomePanel.Controls.Add(welcomeLabel);
+            welcomePanel.Controls.Add(titleLabel);
+            
+            mainPanel.Controls.Add(welcomePanel);
+        }
+
+        private void AddStatCard(FlowLayoutPanel panel, string title, string value, Color color)
+        {
+            Panel card = new Panel();
+            card.Size = new Size(150, 100);
+            card.Margin = new Padding(15, 0, 15, 0);
+            card.BackColor = Color.White;
+            card.BorderStyle = BorderStyle.None;
+            
+            // Tạo hiệu ứng đổ bóng
+            card.Paint += (s, e) => {
+                ControlPaint.DrawBorder(e.Graphics, card.ClientRectangle, 
+                    Color.FromArgb(200, 200, 200), 1, ButtonBorderStyle.Solid,
+                    Color.FromArgb(200, 200, 200), 1, ButtonBorderStyle.Solid,
+                    Color.FromArgb(200, 200, 200), 1, ButtonBorderStyle.Solid,
+                    Color.FromArgb(200, 200, 200), 1, ButtonBorderStyle.Solid);
+            };
+            
+            Label titleLabel = new Label();
+            titleLabel.Text = title;
+            titleLabel.Font = new Font("Arial", 10, FontStyle.Regular);
+            titleLabel.ForeColor = Color.DimGray;
+            titleLabel.Location = new Point(0, 15);
+            titleLabel.Size = new Size(150, 20);
+            titleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            
+            Label valueLabel = new Label();
+            valueLabel.Text = value;
+            valueLabel.Font = new Font("Arial", 24, FontStyle.Bold);
+            valueLabel.ForeColor = color;
+            valueLabel.Location = new Point(0, 40);
+            valueLabel.Size = new Size(150, 40);
+            valueLabel.TextAlign = ContentAlignment.MiddleCenter;
+            
+            card.Controls.Add(titleLabel);
+            card.Controls.Add(valueLabel);
+            
+            panel.Controls.Add(card);
         }
 
         // Event Handlers
@@ -447,25 +569,158 @@ namespace YouthUnionManagement
         }
 
         private void ShowParticipationManagement()
+    {
+        mainPanel.Controls.Clear();
+        
+        Label title = new Label();
+        title.Text = "QUẢN LÝ THAM GIA HOẠT ĐỘNG";
+        title.Font = new Font("Arial", 16, FontStyle.Bold);
+        title.ForeColor = Color.DarkBlue;
+        title.Location = new Point(20, 20);
+        title.Size = new Size(400, 30);
+        
+        // Chọn hoạt động
+        Label lblActivity = new Label();
+        lblActivity.Text = "Chọn hoạt động:";
+        lblActivity.Location = new Point(20, 70);
+        lblActivity.Size = new Size(120, 20);
+        
+        ComboBox cboActivities = new ComboBox();
+        cboActivities.Location = new Point(150, 68);
+        cboActivities.Size = new Size(300, 25);
+        cboActivities.DropDownStyle = ComboBoxStyle.DropDownList;
+        cboActivities.DisplayMember = "Name";
+        cboActivities.ValueMember = "Id";
+        cboActivities.DataSource = DataManager.Activities.Where(a => a.IsActive).ToList();
+        
+        // DataGridView cho danh sách đoàn viên
+        DataGridView dgvMembers = new DataGridView();
+        dgvMembers.Location = new Point(20, 110);
+        dgvMembers.Size = new Size(700, 300);
+        dgvMembers.AutoGenerateColumns = false;
+        dgvMembers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        dgvMembers.BackgroundColor = Color.White;
+        dgvMembers.BorderStyle = BorderStyle.Fixed3D;
+        dgvMembers.AllowUserToAddRows = false;
+        dgvMembers.ReadOnly = false;
+        
+        dgvMembers.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MemberId", HeaderText = "ID", Width = 50, ReadOnly = true });
+        dgvMembers.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Code", HeaderText = "Mã ĐV", Width = 80, ReadOnly = true });
+        dgvMembers.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "FullName", HeaderText = "Họ tên", Width = 150, ReadOnly = true });
+        dgvMembers.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Class", HeaderText = "Lớp", Width = 80, ReadOnly = true });
+        dgvMembers.Columns.Add(new DataGridViewCheckBoxColumn { DataPropertyName = "IsRegistered", HeaderText = "Đăng ký", Width = 70 });
+        dgvMembers.Columns.Add(new DataGridViewCheckBoxColumn { DataPropertyName = "IsAttended", HeaderText = "Tham gia", Width = 70 });
+        dgvMembers.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "PointsEarned", HeaderText = "Điểm", Width = 60 });
+        
+        Button btnSave = new Button();
+        btnSave.Text = "Lưu thay đổi";
+        btnSave.Location = new Point(20, 420);
+        btnSave.Size = new Size(120, 35);
+        btnSave.BackColor = Color.LightGreen;
+        btnSave.FlatStyle = FlatStyle.Flat;
+        btnSave.FlatAppearance.BorderSize = 0;
+        btnSave.Cursor = Cursors.Hand;
+        
+        // Xử lý sự kiện khi chọn hoạt động
+        cboActivities.SelectedIndexChanged += (s, e) => {
+            if (cboActivities.SelectedItem != null)
+            {
+                var activity = (Activity)cboActivities.SelectedItem;
+                LoadParticipationData(dgvMembers, activity.Id);
+            }
+        };
+        
+        // Xử lý sự kiện khi lưu thay đổi
+        btnSave.Click += (s, e) => {
+            if (cboActivities.SelectedItem == null)
+            {
+                MessageBox.Show("Vui lòng chọn hoạt động!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            
+            SaveParticipationData(dgvMembers, ((Activity)cboActivities.SelectedItem).Id);
+            MessageBox.Show("Lưu thông tin tham gia thành công!", "Thông báo");
+        };
+        
+        mainPanel.Controls.Add(title);
+        mainPanel.Controls.Add(lblActivity);
+        mainPanel.Controls.Add(cboActivities);
+        mainPanel.Controls.Add(dgvMembers);
+        mainPanel.Controls.Add(btnSave);
+        
+        // Nếu có hoạt động, tải dữ liệu cho hoạt động đầu tiên
+        if (cboActivities.Items.Count > 0)
         {
-            mainPanel.Controls.Clear();
-            
-            Label title = new Label();
-            title.Text = "QUẢN LÝ THAM GIA HOẠT ĐỘNG";
-            title.Font = new Font("Arial", 14, FontStyle.Bold);
-            title.Location = new Point(20, 20);
-            title.Size = new Size(300, 30);
-            
-            mainPanel.Controls.Add(title);
-            
-            // This would contain participation management interface
-            Label info = new Label();
-            info.Text = "Chức năng quản lý tham gia hoạt động đang được phát triển...";
-            info.Location = new Point(20, 60);
-            info.Size = new Size(400, 20);
-            
-            mainPanel.Controls.Add(info);
+            cboActivities.SelectedIndex = 0;
         }
+    }
+
+    private void LoadParticipationData(DataGridView dgv, int activityId)
+    {
+        var participationData = new List<dynamic>();
+        
+        foreach (var member in DataManager.Members.Where(m => m.IsActive))
+        {
+            var participation = DataManager.Participations
+                .FirstOrDefault(p => p.MemberId == member.Id && p.ActivityId == activityId);
+            
+            participationData.Add(new
+            {
+                MemberId = member.Id,
+                Code = member.Code,
+                FullName = member.FullName,
+                Class = member.Class,
+                IsRegistered = participation != null,
+                IsAttended = participation != null ? participation.IsAttended : false,
+                PointsEarned = participation != null ? participation.PointsEarned : 0
+            });
+        }
+        
+        dgv.DataSource = participationData;
+    }
+
+    private void SaveParticipationData(DataGridView dgv, int activityId)
+    {
+        foreach (DataGridViewRow row in dgv.Rows)
+        {
+            int memberId = Convert.ToInt32(row.Cells["MemberId"].Value);
+            bool isRegistered = Convert.ToBoolean(row.Cells["IsRegistered"].Value);
+            bool isAttended = Convert.ToBoolean(row.Cells["IsAttended"].Value);
+            int pointsEarned = Convert.ToInt32(row.Cells["PointsEarned"].Value);
+            
+            var participation = DataManager.Participations
+                .FirstOrDefault(p => p.MemberId == memberId && p.ActivityId == activityId);
+            
+            if (isRegistered)
+            {
+                if (participation == null)
+                {
+                    // Thêm mới
+                    participation = new Participation
+                    {
+                        Id = DataManager.Participations.Count > 0 ? DataManager.Participations.Max(p => p.Id) + 1 : 1,
+                        MemberId = memberId,
+                        ActivityId = activityId,
+                        RegisterDate = DateTime.Now,
+                        IsAttended = isAttended,
+                        PointsEarned = pointsEarned
+                    };
+                    DataManager.Participations.Add(participation);
+                }
+                else
+                {
+                    // Cập nhật
+                    participation.IsAttended = isAttended;
+                    participation.PointsEarned = pointsEarned;
+                }
+            }
+            else if (participation != null)
+            {
+                // Xóa
+                DataManager.Participations.Remove(participation);
+            }
+        }
+    }
 
         private void ShowPointsView()
         {
@@ -499,18 +754,92 @@ namespace YouthUnionManagement
             
             Label title = new Label();
             title.Text = "CẬP NHẬT ĐIỂM RÈN LUYỆN";
-            title.Font = new Font("Arial", 14, FontStyle.Bold);
+            title.Font = new Font("Arial", 16, FontStyle.Bold);
+            title.ForeColor = Color.DarkBlue;
             title.Location = new Point(20, 20);
-            title.Size = new Size(300, 30);
+            title.Size = new Size(350, 30);
+            
+            // Tìm kiếm đoàn viên
+            Label lblSearch = new Label();
+            lblSearch.Text = "Tìm kiếm:";
+            lblSearch.Location = new Point(20, 70);
+            lblSearch.Size = new Size(80, 20);
+            
+            TextBox txtSearch = new TextBox();
+            txtSearch.Location = new Point(110, 68);
+            txtSearch.Size = new Size(200, 25);
+            txtSearch.BorderStyle = BorderStyle.FixedSingle;
+            
+            Button btnSearch = new Button();
+            btnSearch.Text = "Tìm";
+            btnSearch.Location = new Point(320, 67);
+            btnSearch.Size = new Size(60, 25);
+            btnSearch.BackColor = Color.LightBlue;
+            btnSearch.FlatStyle = FlatStyle.Flat;
+            btnSearch.FlatAppearance.BorderSize = 0;
+            
+            // DataGridView cho danh sách đoàn viên
+            DataGridView dgvMembers = new DataGridView();
+            dgvMembers.Location = new Point(20, 110);
+            dgvMembers.Size = new Size(700, 300);
+            dgvMembers.AutoGenerateColumns = false;
+            dgvMembers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvMembers.BackgroundColor = Color.White;
+            dgvMembers.BorderStyle = BorderStyle.Fixed3D;
+            dgvMembers.AllowUserToAddRows = false;
+            dgvMembers.ReadOnly = false;
+            
+            dgvMembers.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Id", HeaderText = "ID", Width = 50, ReadOnly = true });
+            dgvMembers.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Code", HeaderText = "Mã ĐV", Width = 80, ReadOnly = true });
+            dgvMembers.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "FullName", HeaderText = "Họ tên", Width = 150, ReadOnly = true });
+            dgvMembers.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Class", HeaderText = "Lớp", Width = 80, ReadOnly = true });
+            dgvMembers.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TrainingPoints", HeaderText = "Điểm rèn luyện", Width = 100 });
+            
+            Button btnSave = new Button();
+            btnSave.Text = "Lưu thay đổi";
+            btnSave.Location = new Point(20, 420);
+            btnSave.Size = new Size(120, 35);
+            btnSave.BackColor = Color.LightGreen;
+            btnSave.FlatStyle = FlatStyle.Flat;
+            btnSave.FlatAppearance.BorderSize = 0;
+            btnSave.Cursor = Cursors.Hand;
+            
+            // Xử lý sự kiện tìm kiếm
+            btnSearch.Click += (s, e) => {
+                string searchText = txtSearch.Text.Trim().ToLower();
+                var filteredMembers = DataManager.Members.Where(m => 
+                    m.IsActive && (m.Code.ToLower().Contains(searchText) || 
+                                  m.FullName.ToLower().Contains(searchText) ||
+                                  m.Class.ToLower().Contains(searchText))).ToList();
+                dgvMembers.DataSource = filteredMembers;
+            };
+            
+            // Xử lý sự kiện lưu thay đổi
+            btnSave.Click += (s, e) => {
+                foreach (DataGridViewRow row in dgvMembers.Rows)
+                {
+                    int id = Convert.ToInt32(row.Cells["Id"].Value);
+                    int points = Convert.ToInt32(row.Cells["TrainingPoints"].Value);
+                    
+                    var member = DataManager.Members.FirstOrDefault(m => m.Id == id);
+                    if (member != null)
+                    {
+                        member.TrainingPoints = points;
+                    }
+                }
+                
+                MessageBox.Show("Cập nhật điểm rèn luyện thành công!", "Thông báo");
+            };
             
             mainPanel.Controls.Add(title);
+            mainPanel.Controls.Add(lblSearch);
+            mainPanel.Controls.Add(txtSearch);
+            mainPanel.Controls.Add(btnSearch);
+            mainPanel.Controls.Add(dgvMembers);
+            mainPanel.Controls.Add(btnSave);
             
-            Label info = new Label();
-            info.Text = "Chức năng cập nhật điểm rèn luyện đang được phát triển...";
-            info.Location = new Point(20, 60);
-            info.Size = new Size(400, 20);
-            
-            mainPanel.Controls.Add(info);
+            // Hiển thị tất cả đoàn viên ban đầu
+            dgvMembers.DataSource = DataManager.Members.Where(m => m.IsActive).ToList();
         }
 
         private void ShowAwardManagement()
@@ -519,18 +848,160 @@ namespace YouthUnionManagement
             
             Label title = new Label();
             title.Text = "QUẢN LÝ KHEN THƯỞNG";
-            title.Font = new Font("Arial", 14, FontStyle.Bold);
+            title.Font = new Font("Arial", 16, FontStyle.Bold);
+            title.ForeColor = Color.DarkBlue;
             title.Location = new Point(20, 20);
             title.Size = new Size(300, 30);
             
+            // Chọn đoàn viên
+            Label lblMember = new Label();
+            lblMember.Text = "Chọn đoàn viên:";
+            lblMember.Location = new Point(20, 70);
+            lblMember.Size = new Size(120, 20);
+            
+            ComboBox cboMembers = new ComboBox();
+            cboMembers.Location = new Point(150, 68);
+            cboMembers.Size = new Size(250, 25);
+            cboMembers.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboMembers.DisplayMember = "FullName";
+            cboMembers.ValueMember = "Id";
+            cboMembers.DataSource = DataManager.Members.Where(m => m.IsActive).ToList();
+            
+            // Panel thêm khen thưởng
+            GroupBox addAwardGroup = new GroupBox();
+            addAwardGroup.Text = "Thêm khen thưởng mới";
+            addAwardGroup.Location = new Point(20, 110);
+            addAwardGroup.Size = new Size(380, 200);
+            
+            Label lblType = new Label();
+            lblType.Text = "Loại khen thưởng:";
+            lblType.Location = new Point(20, 30);
+            lblType.Size = new Size(120, 20);
+            
+            ComboBox cboType = new ComboBox();
+            cboType.Location = new Point(150, 28);
+            cboType.Size = new Size(200, 25);
+            cboType.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboType.Items.AddRange(new string[] { "Giấy khen", "Bằng khen", "Huy chương", "Khác" });
+            
+            Label lblDescription = new Label();
+            lblDescription.Text = "Mô tả:";
+            lblDescription.Location = new Point(20, 70);
+            lblDescription.Size = new Size(120, 20);
+            
+            TextBox txtDescription = new TextBox();
+            txtDescription.Location = new Point(150, 68);
+            txtDescription.Size = new Size(200, 60);
+            txtDescription.Multiline = true;
+            
+            Label lblPoints = new Label();
+            lblPoints.Text = "Điểm thưởng:";
+            lblPoints.Location = new Point(20, 110);
+            lblPoints.Size = new Size(120, 20);
+            
+            NumericUpDown numPoints = new NumericUpDown();
+            numPoints.Location = new Point(150, 108);
+            numPoints.Size = new Size(80, 25);
+            numPoints.Minimum = 0;
+            numPoints.Maximum = 50;
+            numPoints.Value = 5;
+            
+            Button btnAddAward = new Button();
+            btnAddAward.Text = "Thêm khen thưởng";
+            btnAddAward.Location = new Point(150, 150);
+            btnAddAward.Size = new Size(120, 30);
+            btnAddAward.BackColor = Color.LightGreen;
+            btnAddAward.FlatStyle = FlatStyle.Flat;
+            btnAddAward.FlatAppearance.BorderSize = 0;
+            btnAddAward.Cursor = Cursors.Hand;
+            
+            addAwardGroup.Controls.Add(lblType);
+            addAwardGroup.Controls.Add(cboType);
+            addAwardGroup.Controls.Add(lblDescription);
+            addAwardGroup.Controls.Add(txtDescription);
+            addAwardGroup.Controls.Add(lblPoints);
+            addAwardGroup.Controls.Add(numPoints);
+            addAwardGroup.Controls.Add(btnAddAward);
+            
+            // DataGridView cho danh sách khen thưởng
+            Label lblAwardList = new Label();
+            lblAwardList.Text = "Danh sách khen thưởng:";
+            lblAwardList.Location = new Point(20, 320);
+            lblAwardList.Size = new Size(200, 20);
+            
+            DataGridView dgvAwards = new DataGridView();
+            dgvAwards.Location = new Point(20, 350);
+            dgvAwards.Size = new Size(700, 200);
+            dgvAwards.AutoGenerateColumns = false;
+            dgvAwards.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvAwards.BackgroundColor = Color.White;
+            dgvAwards.BorderStyle = BorderStyle.Fixed3D;
+            dgvAwards.AllowUserToAddRows = false;
+            dgvAwards.ReadOnly = true;
+            
+            dgvAwards.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Id", HeaderText = "ID", Width = 50 });
+            dgvAwards.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "MemberName", HeaderText = "Đoàn viên", Width = 150 });
+            dgvAwards.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Type", HeaderText = "Loại khen thưởng", Width = 120 });
+            dgvAwards.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Description", HeaderText = "Mô tả", Width = 200 });
+            dgvAwards.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AwardDate", HeaderText = "Ngày khen thưởng", Width = 100 });
+            dgvAwards.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Points", HeaderText = "Điểm", Width = 50 });
+            
+            // Xử lý sự kiện thêm khen thưởng
+            btnAddAward.Click += (s, e) => {
+                if (cboMembers.SelectedItem == null || cboType.SelectedItem == null)
+                {
+                    MessageBox.Show("Vui lòng chọn đoàn viên và loại khen thưởng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                
+                var award = new Award
+                {
+                    Id = DataManager.Awards.Count > 0 ? DataManager.Awards.Max(a => a.Id) + 1 : 1,
+                    MemberId = (int)cboMembers.SelectedValue,
+                    Type = cboType.SelectedItem.ToString(),
+                    Description = txtDescription.Text,
+                    AwardDate = DateTime.Now,
+                    Points = (int)numPoints.Value
+                };
+                
+                DataManager.Awards.Add(award);
+                
+                // Cập nhật điểm rèn luyện cho đoàn viên
+                var member = DataManager.Members.FirstOrDefault(m => m.Id == award.MemberId);
+                if (member != null)
+                {
+                    member.TrainingPoints += award.Points;
+                }
+                
+                MessageBox.Show("Thêm khen thưởng thành công!", "Thông báo");
+                LoadAwardData(dgvAwards);
+            };
+            
+            // Hàm tải dữ liệu khen thưởng
+            void LoadAwardData(DataGridView dgv)
+            {
+                var awardData = DataManager.Awards.Select(a => new
+                {
+                    a.Id,
+                    MemberName = DataManager.Members.FirstOrDefault(m => m.Id == a.MemberId)?.FullName,
+                    a.Type,
+                    a.Description,
+                    AwardDate = a.AwardDate.ToString("dd/MM/yyyy"),
+                    a.Points
+                }).ToList();
+                
+                dgv.DataSource = awardData;
+            }
+            
+            // Tải dữ liệu ban đầu
+            LoadAwardData(dgvAwards);
+            
             mainPanel.Controls.Add(title);
-            
-            Label info = new Label();
-            info.Text = "Chức năng quản lý khen thưởng đang được phát triển...";
-            info.Location = new Point(20, 60);
-            info.Size = new Size(400, 20);
-            
-            mainPanel.Controls.Add(info);
+            mainPanel.Controls.Add(lblMember);
+            mainPanel.Controls.Add(cboMembers);
+            mainPanel.Controls.Add(addAwardGroup);
+            mainPanel.Controls.Add(lblAwardList);
+            mainPanel.Controls.Add(dgvAwards);
         }
 
         private void ShowMemberReport()

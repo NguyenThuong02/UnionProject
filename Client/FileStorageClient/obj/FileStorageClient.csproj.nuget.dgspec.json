@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Documents\\MyProject\\ProjectUploadFolderFake\\Client\\FileStorageClient\\FileStorageClient.csproj": {}
+    "C:\\Users\\Admin\\Documents\\MyProject\\UnionProject2\\Client\\FileStorageClient\\FileStorageClient.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Documents\\MyProject\\ProjectUploadFolderFake\\Client\\FileStorageClient\\FileStorageClient.csproj": {
+    "C:\\Users\\Admin\\Documents\\MyProject\\UnionProject2\\Client\\FileStorageClient\\FileStorageClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Documents\\MyProject\\ProjectUploadFolderFake\\Client\\FileStorageClient\\FileStorageClient.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Documents\\MyProject\\UnionProject2\\Client\\FileStorageClient\\FileStorageClient.csproj",
         "projectName": "FileStorageClient",
-        "projectPath": "C:\\Users\\Admin\\Documents\\MyProject\\ProjectUploadFolderFake\\Client\\FileStorageClient\\FileStorageClient.csproj",
+        "projectPath": "C:\\Users\\Admin\\Documents\\MyProject\\UnionProject2\\Client\\FileStorageClient\\FileStorageClient.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Documents\\MyProject\\ProjectUploadFolderFake\\Client\\FileStorageClient\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Documents\\MyProject\\UnionProject2\\Client\\FileStorageClient\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
