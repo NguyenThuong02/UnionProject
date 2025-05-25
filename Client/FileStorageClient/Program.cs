@@ -146,68 +146,76 @@ namespace YouthUnionManagement
         private void InitializeComponent()
         {
             this.Text = "Đăng nhập - Quản lý Đoàn Sở";
-            this.Size = new Size(400, 300);
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.BackColor = Color.WhiteSmoke;
+    this.Size = new Size(500, 400);
+    this.StartPosition = FormStartPosition.CenterScreen;
+    this.FormBorderStyle = FormBorderStyle.FixedDialog;
+    this.MaximizeBox = false;
+    this.BackColor = Color.LightSteelBlue;
 
-            // Tạo panel chứa form đăng nhập
-            Panel loginPanel = new Panel();
-            loginPanel.Size = new Size(320, 220);
-            loginPanel.Location = new Point((this.ClientSize.Width - loginPanel.Width) / 2, (this.ClientSize.Height - loginPanel.Height) / 2);
-            loginPanel.BackColor = Color.White;
-            loginPanel.BorderStyle = BorderStyle.FixedSingle;
+    Panel loginPanel = new Panel();
+    loginPanel.Size = new Size(400, 300);
+    loginPanel.Location = new Point((this.ClientSize.Width - loginPanel.Width) / 2, (this.ClientSize.Height - loginPanel.Height) / 2);
+    loginPanel.BackColor = Color.White;
+    loginPanel.BorderStyle = BorderStyle.FixedSingle;
+    loginPanel.Padding = new Padding(20);
 
-            lblTitle = new Label();
-            lblTitle.Text = "ĐĂNG NHẬP HỆ THỐNG";
-            lblTitle.Font = new Font("Arial", 16, FontStyle.Bold);
-            lblTitle.ForeColor = Color.DarkBlue;
-            lblTitle.Location = new Point(30, 20);
-            lblTitle.Size = new Size(260, 30);
-            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+    lblTitle = new Label();
+    lblTitle.Text = "ĐĂNG NHẬP HỆ THỐNG";
+    lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+    lblTitle.ForeColor = Color.DarkBlue;
+    lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+    lblTitle.Dock = DockStyle.Top;
+    lblTitle.Height = 60;
 
-            Label lblUsername = new Label();
-            lblUsername.Text = "Tên đăng nhập:";
-            lblUsername.Location = new Point(30, 70);
-            lblUsername.Size = new Size(100, 20);
+    Label lblUsername = new Label();
+    lblUsername.Text = "Tên đăng nhập:";
+    lblUsername.Font = new Font("Segoe UI", 12F);
+    lblUsername.Location = new Point(20, 80);
+    lblUsername.Size = new Size(130, 30);
 
-            txtUsername = new TextBox();
-            txtUsername.Location = new Point(140, 68);
-            txtUsername.Size = new Size(150, 20);
-            txtUsername.BorderStyle = BorderStyle.FixedSingle;
+    txtUsername = new TextBox();
+    txtUsername.Font = new Font("Segoe UI", 12F);
+    txtUsername.Location = new Point(160, 80);
+    txtUsername.Size = new Size(200, 30);
+    txtUsername.PlaceholderText = "Nhập tên đăng nhập";
+    txtUsername.BorderStyle = BorderStyle.FixedSingle;
 
-            Label lblPassword = new Label();
-            lblPassword.Text = "Mật khẩu:";
-            lblPassword.Location = new Point(30, 110);
-            lblPassword.Size = new Size(100, 20);
+    Label lblPassword = new Label();
+    lblPassword.Text = "Mật khẩu:";
+    lblPassword.Font = new Font("Segoe UI", 12F);
+    lblPassword.Location = new Point(20, 130);
+    lblPassword.Size = new Size(130, 30);
 
-            txtPassword = new TextBox();
-            txtPassword.Location = new Point(140, 108);
-            txtPassword.Size = new Size(150, 20);
-            txtPassword.UseSystemPasswordChar = true;
-            txtPassword.BorderStyle = BorderStyle.FixedSingle;
+    txtPassword = new TextBox();
+    txtPassword.Font = new Font("Segoe UI", 12F);
+    txtPassword.Location = new Point(160, 130);
+    txtPassword.Size = new Size(200, 30);
+    txtPassword.PlaceholderText = "Nhập mật khẩu";
+    txtPassword.UseSystemPasswordChar = true;
+    txtPassword.BorderStyle = BorderStyle.FixedSingle;
 
-            btnLogin = new Button();
-            btnLogin.Text = "Đăng nhập";
-            btnLogin.Location = new Point(140, 150);
-            btnLogin.Size = new Size(100, 35);
-            btnLogin.BackColor = Color.RoyalBlue;
-            btnLogin.ForeColor = Color.White;
-            btnLogin.FlatStyle = FlatStyle.Flat;
-            btnLogin.FlatAppearance.BorderSize = 0;
-            btnLogin.Cursor = Cursors.Hand;
-            btnLogin.Click += BtnLogin_Click;
+    btnLogin = new Button();
+    btnLogin.Text = "Đăng nhập";
+    btnLogin.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+    btnLogin.Location = new Point(140, 200);
+    btnLogin.Size = new Size(120, 40);
+    btnLogin.BackColor = Color.MediumBlue;
+    btnLogin.ForeColor = Color.White;
+    btnLogin.FlatStyle = FlatStyle.Flat;
+    btnLogin.FlatAppearance.BorderSize = 0;
+    btnLogin.Cursor = Cursors.Hand;
+    btnLogin.Click += BtnLogin_Click;
 
-            loginPanel.Controls.Add(lblTitle);
-            loginPanel.Controls.Add(lblUsername);
-            loginPanel.Controls.Add(txtUsername);
-            loginPanel.Controls.Add(lblPassword);
-            loginPanel.Controls.Add(txtPassword);
-            loginPanel.Controls.Add(btnLogin);
+    loginPanel.Controls.Add(lblTitle);
+    loginPanel.Controls.Add(lblUsername);
+    loginPanel.Controls.Add(txtUsername);
+    loginPanel.Controls.Add(lblPassword);
+    loginPanel.Controls.Add(txtPassword);
+    loginPanel.Controls.Add(btnLogin);
 
-            this.Controls.Add(loginPanel);
-        }
+    this.Controls.Add(loginPanel);
+}
+
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
@@ -255,7 +263,7 @@ namespace YouthUnionManagement
             // Menu Strip
             menuStrip = new MenuStrip();
             menuStrip.BackColor = Color.RoyalBlue;
-            menuStrip.ForeColor = Color.White;
+            menuStrip.ForeColor = Color.Black;
             menuStrip.Padding = new Padding(10, 5, 0, 5);
             menuStrip.Font = new Font("Segoe UI", 10, FontStyle.Regular);
             
