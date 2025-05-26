@@ -1248,7 +1248,7 @@ namespace YouthUnionManagement
         private void InitializeComponent()
         {
             this.Text = "Thêm/Sửa Hoạt động";
-            this.Size = new Size(500, 400);
+            this.Size = new Size(500, 500);
             this.StartPosition = FormStartPosition.CenterParent;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
